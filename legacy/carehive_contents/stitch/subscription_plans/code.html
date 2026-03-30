@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CareHive - Subscription Plans</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-secondary-fixed": "#271900",
+              "on-primary": "#ffffff",
+              "on-surface": "#191c1e",
+              "inverse-on-surface": "#f0f1f3",
+              "outline": "#787586",
+              "on-surface-variant": "#474554",
+              "inverse-primary": "#c6bfff",
+              "tertiary-fixed-dim": "#ffb77d",
+              "on-primary-fixed": "#160066",
+              "tertiary-container": "#ac5d00",
+              "surface": "#f8f9fb",
+              "on-tertiary-container": "#fff5f1",
+              "surface-tint": "#5847d2",
+              "surface-bright": "#f8f9fb",
+              "primary-fixed-dim": "#c6bfff",
+              "tertiary": "#884800",
+              "on-tertiary-fixed-variant": "#6e3900",
+              "on-secondary-container": "#785500",
+              "surface-dim": "#d9dadc",
+              "tertiary-fixed": "#ffdcc3",
+              "background": "#f8f9fb",
+              "surface-container-high": "#e7e8ea",
+              "secondary-fixed-dim": "#f0bf63",
+              "surface-container": "#edeef0",
+              "surface-container-low": "#f2f4f6",
+              "secondary": "#7c5800",
+              "on-tertiary-fixed": "#2f1500",
+              "on-secondary-fixed-variant": "#5e4200",
+              "inverse-surface": "#2e3132",
+              "primary-fixed": "#e4dfff",
+              "surface-variant": "#e1e2e4",
+              "primary": "#5341cd",
+              "outline-variant": "#c8c4d7",
+              "on-background": "#191c1e",
+              "surface-container-highest": "#e1e2e4",
+              "on-error": "#ffffff",
+              "error-container": "#ffdad6",
+              "surface-container-lowest": "#ffffff",
+              "secondary-fixed": "#ffdea7",
+              "secondary-container": "#ffcd70",
+              "on-tertiary": "#ffffff",
+              "primary-container": "#6c5ce7",
+              "on-secondary": "#ffffff",
+              "on-primary-container": "#faf6ff",
+              "error": "#ba1a1a",
+              "on-primary-fixed-variant": "#4029ba",
+              "on-error-container": "#93000a"
+            },
+            fontFamily: {
+              "headline": ["Inter"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1rem", "3xl": "1.5rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface antialiased mb-24">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-[#f8f9fb]/80 backdrop-blur-xl flex justify-between items-center px-6 h-16 w-full shadow-[0px_4px_20px_rgba(83,65,205,0.04)]">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-surface-container overflow-hidden">
+<img alt="Household profile photo" data-alt="portrait of a professional Ghanaian household manager with a warm smile in a brightly lit modern interior" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCgykRaoKFRkvTATPyaGCKZ4HISp8jRzMzJQVi4cYAR3tyLjSz_msVlJ9BzssQ8xpLcE03eu4g8CnLbdlFo0fChZ98Cr2mJi_q7kMhT1TPIT4CMuM17zToC4x9uc3GfgNG-EoQ6IJEy5VTke9tDqNAKX1zWJRIX5CNrtcKYqw_OMB2wn9xZGYg0e4P3uhYyBa14pVRNW4GlMPUErzfje_TyTw6blWrQTBlXrrCr0kRW5ODLJNvpELnP7FoFd_zS8o3og-pyNvcpb-M"/>
+</div>
+<span class="text-[#5341cd] font-bold tracking-tighter text-xl">CareHive</span>
+</div>
+<button class="active:scale-95 transition-transform duration-200 hover:opacity-80">
+<span class="material-symbols-outlined text-[#5341cd]">notifications</span>
+</button>
+</header>
+<main class="pt-24 px-6 max-w-5xl mx-auto pb-12">
+<!-- Hero Section -->
+<section class="mb-12">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+<div class="max-w-xl">
+<h1 class="text-[2.5rem] leading-tight font-bold text-on-surface tracking-tight mb-4">
+                        Choose Your <span class="text-primary">Care Plan</span>
+</h1>
+<p class="text-on-surface-variant text-lg leading-relaxed">
+                        Find the perfect balance of domestic support and lifestyle freedom. Curated services designed for your home.
+                    </p>
+</div>
+<!-- Pricing Toggle -->
+<div class="bg-surface-container-low p-1.5 rounded-full flex items-center self-start md:self-auto">
+<button class="px-6 py-2 bg-primary text-on-primary rounded-full font-medium text-sm transition-all shadow-md">Monthly</button>
+<button class="px-6 py-2 text-on-surface-variant font-medium text-sm transition-all hover:text-primary">Yearly</button>
+</div>
+</div>
+</section>
+<!-- Pricing Bento Grid -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<!-- Basic Tier -->
+<div class="group relative bg-surface-container-lowest rounded-3xl p-8 transition-all duration-300 hover:shadow-[0px_20px_40px_rgba(83,65,205,0.08)] outline-variant/15 outline outline-1 flex flex-col">
+<div class="mb-8">
+<h3 class="text-on-surface-variant font-semibold uppercase tracking-widest text-xs mb-2">Basic</h3>
+<div class="flex items-baseline gap-1">
+<span class="text-sm font-bold text-on-surface">GHS</span>
+<span class="text-4xl font-extrabold text-on-surface tracking-tighter">150</span>
+<span class="text-on-surface-variant text-sm">/mo</span>
+</div>
+</div>
+<div class="space-y-4 mb-8 flex-grow">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-sm" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="text-on-surface text-sm">1x Weekly Cleaning</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-sm" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="text-on-surface text-sm">10% off laundry</span>
+</div>
+<div class="flex items-center gap-3 opacity-30">
+<span class="material-symbols-outlined text-on-surface-variant text-sm">cancel</span>
+<span class="text-on-surface text-sm line-through">Priority support</span>
+</div>
+</div>
+<button class="w-full py-4 rounded-2xl bg-surface-container text-primary font-bold hover:bg-primary hover:text-on-primary transition-all duration-300 active:scale-95">
+                    Select Plan
+                </button>
+</div>
+<!-- Plus Tier (Most Popular) -->
+<div class="group relative bg-surface-container-lowest rounded-3xl p-8 transition-all duration-300 shadow-[0px_20px_40px_rgba(83,65,205,0.12)] border-2 border-primary/20 flex flex-col overflow-hidden">
+<!-- Most Popular Badge -->
+<div class="absolute top-0 right-0 bg-secondary text-on-secondary px-6 py-1.5 rounded-bl-3xl text-[10px] font-bold uppercase tracking-widest">
+                    Most Popular
+                </div>
+<div class="mb-8">
+<h3 class="text-primary font-bold uppercase tracking-widest text-xs mb-2">Plus</h3>
+<div class="flex items-baseline gap-1">
+<span class="text-sm font-bold text-on-surface">GHS</span>
+<span class="text-5xl font-extrabold text-on-surface tracking-tighter">280</span>
+<span class="text-on-surface-variant text-sm">/mo</span>
+</div>
+</div>
+<div class="space-y-5 mb-10 flex-grow">
+<div class="flex items-center gap-3">
+<div class="bg-primary/10 p-1 rounded-full">
+<span class="material-symbols-outlined text-primary text-sm" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<span class="text-on-surface font-medium">2x Weekly Cleaning</span>
+</div>
+<div class="flex items-center gap-3">
+<div class="bg-primary/10 p-1 rounded-full">
+<span class="material-symbols-outlined text-primary text-sm" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<span class="text-on-surface font-medium">15% off laundry</span>
+</div>
+<div class="flex items-center gap-3">
+<div class="bg-primary/10 p-1 rounded-full">
+<span class="material-symbols-outlined text-primary text-sm" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<span class="text-on-surface font-medium">Priority support</span>
+</div>
+</div>
+<button class="w-full py-4 rounded-2xl bg-gradient-to-br from-primary to-primary-container text-on-primary font-bold shadow-lg shadow-primary/20 hover:scale-[1.02] transition-all duration-300 active:scale-95">
+                    Select Plan
+                </button>
+</div>
+<!-- Premium Tier -->
+<div class="group relative bg-surface-container-lowest rounded-3xl p-8 transition-all duration-300 hover:shadow-[0px_20px_40px_rgba(83,65,205,0.08)] outline-variant/15 outline outline-1 flex flex-col">
+<div class="mb-8">
+<h3 class="text-on-surface-variant font-semibold uppercase tracking-widest text-xs mb-2">Premium</h3>
+<div class="flex items-baseline gap-1">
+<span class="text-sm font-bold text-on-surface">GHS</span>
+<span class="text-4xl font-extrabold text-on-surface tracking-tighter">400</span>
+<span class="text-on-surface-variant text-sm">/mo</span>
+</div>
+</div>
+<div class="space-y-4 mb-8 flex-grow">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-sm" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="text-on-surface text-sm">3x Weekly Cleaning</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-sm" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="text-on-surface text-sm">20% off laundry</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-sm" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="text-on-surface text-sm">Dedicated account manager</span>
+</div>
+</div>
+<button class="w-full py-4 rounded-2xl bg-surface-container text-primary font-bold hover:bg-primary hover:text-on-primary transition-all duration-300 active:scale-95">
+                    Select Plan
+                </button>
+</div>
+</div>
+<!-- Editorial Image Section -->
+<section class="mt-20 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+<div class="relative">
+<div class="aspect-[4/5] rounded-[3rem] overflow-hidden bg-surface-container-high">
+<img alt="Cleaning Service Professional" class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700" data-alt="professional Ghanaian woman in a clean uniform expertly dusting a minimalist contemporary living room with large windows" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC8L0bXL9jAlx60feHUx0_XvY_h1rl5lOLHu5NYBdLtIAM2mbxlFFwJjs-0raLEWLPWQ1S5Kjt5GiUxnIHoiMtfWBFD1eL52Ymb3hiGPqjoAP8VWRHPwk0zPxeEh8f71WnlNpprVeo56g90wyIEhUcKTp7PrhTNMvKKkTJcJbT2x8Gq3_8TU2dUDwafrH30G7AJ-3kLz2MohiOfd_B-p0mjFaeovGyE1yXg_pT4vbKDOdBMXg0zIbMinqTB-sN0uqq_2n3CaEGDSiA"/>
+</div>
+<!-- Trust Badge -->
+<div class="absolute -bottom-6 -right-6 bg-secondary-fixed/80 backdrop-blur-md px-6 py-4 rounded-3xl shadow-xl flex items-center gap-3">
+<span class="material-symbols-outlined text-on-secondary-fixed" style="font-variation-settings: 'FILL' 1;">verified</span>
+<div>
+<p class="text-[10px] uppercase font-bold text-on-secondary-fixed tracking-widest leading-none mb-1">Certified</p>
+<p class="text-sm font-bold text-on-secondary-fixed">Premium Pros</p>
+</div>
+</div>
+</div>
+<div class="space-y-8">
+<div>
+<h2 class="text-3xl font-bold tracking-tight text-on-surface mb-6 leading-tight">Expert care, delivered with respect.</h2>
+<p class="text-on-surface-variant leading-relaxed">Our professionals undergo rigorous training and background checks to ensure your home is managed by the best in the industry. Every subscription supports fair wages and continuous career development for our team.</p>
+</div>
+<ul class="space-y-6">
+<li class="flex gap-4">
+<div class="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-primary">security</span>
+</div>
+<div>
+<h4 class="font-bold text-on-surface">Fully Insured</h4>
+<p class="text-sm text-on-surface-variant">Peace of mind for your property and belongings.</p>
+</div>
+</li>
+<li class="flex gap-4">
+<div class="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-primary">psychology</span>
+</div>
+<div>
+<h4 class="font-bold text-on-surface">Smart Matching</h4>
+<p class="text-sm text-on-surface-variant">We pair you with the same pro every week for consistency.</p>
+</div>
+</li>
+</ul>
+</div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center px-4 pb-6 pt-3 bg-[#f8f9fb]/90 backdrop-blur-md rounded-t-[2rem] z-50 shadow-[0px_-10px_30px_rgba(83,65,205,0.08)]">
+<a class="flex flex-col items-center justify-center text-slate-400 px-5 py-2 hover:text-[#5341cd] transition-colors active:scale-90 duration-300" href="#">
+<span class="material-symbols-outlined mb-1">home</span>
+<span class="font-['Inter'] font-medium text-[11px] uppercase tracking-wider">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-[#6c5ce7]/10 text-[#5341cd] rounded-2xl px-5 py-2 active:scale-90 transition-all duration-300" href="#">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 1;">loyalty</span>
+<span class="font-['Inter'] font-medium text-[11px] uppercase tracking-wider">Plans</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-400 px-5 py-2 hover:text-[#5341cd] transition-colors active:scale-90 duration-300" href="#">
+<span class="material-symbols-outlined mb-1">event_note</span>
+<span class="font-['Inter'] font-medium text-[11px] uppercase tracking-wider">Schedule</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-400 px-5 py-2 hover:text-[#5341cd] transition-colors active:scale-90 duration-300" href="#">
+<span class="material-symbols-outlined mb-1">person</span>
+<span class="font-['Inter'] font-medium text-[11px] uppercase tracking-wider">Account</span>
+</a>
+</nav>
+</body></html>

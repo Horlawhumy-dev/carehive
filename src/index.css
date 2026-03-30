@@ -1,0 +1,65 @@
+@import "tailwindcss";
+
+@theme {
+  --font-headline: "Inter", sans-serif;
+  --font-body: "Inter", sans-serif;
+  --font-label: "Inter", sans-serif;
+  
+  --color-background: #f8f9fb;
+  --color-foreground: #191c1e;
+  
+  --color-primary: #5341cd;
+  --color-primary-foreground: #ffffff;
+  
+  --color-secondary: #7c5800;
+  --color-secondary-foreground: #ffffff;
+  --color-secondary-fixed: #ffdea7;
+  --color-on-secondary-fixed: #271900;
+  
+  --color-surface: #f8f9fb;
+  --color-on-surface: #191c1e;
+  --color-on-surface-variant: #474554;
+  
+  --color-surface-container-lowest: #ffffff;
+  --color-surface-container-low: #f2f4f6;
+  --color-surface-container: #edeef0;
+  --color-surface-container-high: #e7e8ea;
+  --color-surface-container-highest: #e1e2e4;
+  
+  --color-border: #e1e2e4;
+  --color-input: #e1e2e4;
+  --color-ring: #5341cd;
+  
+  --radius-lg: 0.5rem;
+  --radius-md: calc(0.5rem - 2px);
+  --radius-sm: calc(0.5rem - 4px);
+  
+  --shadow-editorial: 0px 10px 30px rgba(83, 65, 205, 0.06);
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: "Inter", sans-serif;
+  }
+}
+
+@utility no-scrollbar {
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+@utility glass-badge {
+  background: rgba(255, 222, 167, 0.8);
+  backdrop-filter: blur(12px);
+}
+
+@utility primary-gradient {
+  background: linear-gradient(135deg, #5341cd 0%, #6c5ce7 100%);
+}

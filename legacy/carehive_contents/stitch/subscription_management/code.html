@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CareHive - Subscription Management</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-secondary-fixed": "#271900",
+              "on-primary": "#ffffff",
+              "on-surface": "#191c1e",
+              "inverse-on-surface": "#f0f1f3",
+              "outline": "#787586",
+              "on-surface-variant": "#474554",
+              "inverse-primary": "#c6bfff",
+              "tertiary-fixed-dim": "#ffb77d",
+              "on-primary-fixed": "#160066",
+              "tertiary-container": "#ac5d00",
+              "surface": "#f8f9fb",
+              "on-tertiary-container": "#fff5f1",
+              "surface-tint": "#5847d2",
+              "surface-bright": "#f8f9fb",
+              "primary-fixed-dim": "#c6bfff",
+              "tertiary": "#884800",
+              "on-tertiary-fixed-variant": "#6e3900",
+              "on-secondary-container": "#785500",
+              "surface-dim": "#d9dadc",
+              "tertiary-fixed": "#ffdcc3",
+              "background": "#f8f9fb",
+              "surface-container-high": "#e7e8ea",
+              "secondary-fixed-dim": "#f0bf63",
+              "surface-container": "#edeef0",
+              "surface-container-low": "#f2f4f6",
+              "secondary": "#7c5800",
+              "on-tertiary-fixed": "#2f1500",
+              "on-secondary-fixed-variant": "#5e4200",
+              "inverse-surface": "#2e3132",
+              "primary-fixed": "#e4dfff",
+              "surface-variant": "#e1e2e4",
+              "primary": "#5341cd",
+              "outline-variant": "#c8c4d7",
+              "on-background": "#191c1e",
+              "surface-container-highest": "#e1e2e4",
+              "on-error": "#ffffff",
+              "error-container": "#ffdad6",
+              "surface-container-lowest": "#ffffff",
+              "secondary-fixed": "#ffdea7",
+              "secondary-container": "#ffcd70",
+              "on-tertiary": "#ffffff",
+              "primary-container": "#6c5ce7",
+              "on-secondary": "#ffffff",
+              "on-primary-container": "#faf6ff",
+              "error": "#ba1a1a",
+              "on-primary-fixed-variant": "#4029ba",
+              "on-error-container": "#93000a"
+            },
+            fontFamily: {
+              "headline": ["Inter"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface min-h-screen pb-32">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-[#f8f9fb]/80 dark:bg-slate-900/80 backdrop-blur-xl shadow-[0px_4px_20px_rgba(83,65,205,0.04)]">
+<div class="flex justify-between items-center px-6 h-16 w-full">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full overflow-hidden border-2 border-primary-container/20">
+<img alt="Household profile photo" data-alt="Close-up of a smiling modern family in a sunlit clean living room, warm and inviting atmosphere" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCWyYLCt7IxzGT0gPhHgDlbynVI4PYD2Y9A077F72uYecjo-nFcYNOepZ7ejP5ug-mpeXyQjvtN6hBhRI8pp2nWUoMNRGbfxFUoyBpVXjO-gqgtGvEqus8OzDwpw3LAyeq8Kx5CM7INHA6bqfRXOYKJ0_c__Q0pSWd-PkDTQIBZ4ouEcHhHdiL2nstUFr075UsmVWnryXmkRFaIkJnyz74S49hv_9eoHalvUZLFdGvl5L-Tz0fc-8nOMLVT28RM1K4n4qjvcPr_JDk"/>
+</div>
+<span class="text-[#5341cd] dark:text-[#6c5ce7] font-bold tracking-tighter text-xl">CareHive</span>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-slate-500 hover:opacity-80 transition-opacity active:scale-95 transition-transform duration-200">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+</div>
+</div>
+</header>
+<main class="pt-24 px-6 max-w-2xl mx-auto space-y-10">
+<!-- Section Header -->
+<section>
+<h1 class="text-[1.75rem] font-semibold tracking-tight text-on-surface">My Care Plan</h1>
+<p class="text-on-surface-variant mt-1">Manage your active cleaning services and preferences.</p>
+</section>
+<!-- Active Plan Bento Card -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+<!-- Primary Plan Card -->
+<div class="md:col-span-2 relative overflow-hidden bg-primary-container rounded-[1.5rem] p-6 text-on-primary-container shadow-[0px_10px_30px_rgba(83,65,205,0.1)]">
+<div class="absolute -top-12 -right-12 w-48 h-48 bg-white/10 rounded-full blur-3xl"></div>
+<div class="relative z-10">
+<div class="flex justify-between items-start">
+<div>
+<span class="px-3 py-1 bg-white/20 backdrop-blur-md rounded-full text-[0.75rem] font-semibold uppercase tracking-wider">Plus Plan • Active</span>
+<h2 class="text-2xl font-bold mt-4">Full House Care</h2>
+<p class="opacity-90 mt-1 flex items-center gap-2">
+<span class="material-symbols-outlined text-sm" data-icon="event">event</span>
+                                Next Visit: Tomorrow, 9:00 AM
+                            </p>
+</div>
+<div class="bg-secondary-fixed text-on-secondary-fixed px-3 py-1 rounded-full flex items-center gap-1 shadow-sm backdrop-blur-md">
+<span class="material-symbols-outlined text-[14px]" data-icon="verified" style="font-variation-settings: 'FILL' 1;">verified</span>
+<span class="text-[10px] font-bold uppercase tracking-tighter">Certified</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Professional Info -->
+<div class="bg-surface-container-lowest rounded-[1.5rem] p-6 shadow-[0px_10px_30px_rgba(83,65,205,0.04)] border border-outline-variant/15 flex flex-col items-center justify-center text-center">
+<div class="relative mb-3">
+<img alt="Mavis" class="w-16 h-16 rounded-full object-cover border-2 border-primary" data-alt="Portrait of a professional african female cleaner in a neat uniform, smiling confidently against a soft neutral background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA4uGg4o9QZIdwOyEepM3KKeM2mwqn8PBgs8C5y1M5XWHr0WiYoBXnbsZvj-3Tqxj4g4lnkkr4TjtmyVBj5ae2PgVMtEcEksaLlEG6y5hpWzR8GxpCY9lq-URcltNh4AlT33VPgHpyQ5FucAqZWnU0-fUbqfBQPSK6rzbjtow6yyn6Kv52OFxK2wXtn56xdqLb0V2iWBjZppK_I3v6sM5PUImeLWh9ptVQO0HeloRUOpqD8mJ9aMOcTcOM6vPRGi1Ojj82unpjbXXM"/>
+<div class="absolute bottom-0 right-0 w-4 h-4 bg-green-500 border-2 border-white rounded-full"></div>
+</div>
+<p class="text-[11px] font-semibold text-primary uppercase tracking-widest">Assigned Pro</p>
+<h3 class="font-bold text-on-surface">Mavis</h3>
+<div class="flex items-center gap-1 mt-1">
+<span class="material-symbols-outlined text-secondary text-xs" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="text-xs font-medium">4.9 (124)</span>
+</div>
+</div>
+</div>
+<!-- Quick Actions Grid -->
+<section class="grid grid-cols-3 gap-3">
+<button class="flex flex-col items-center justify-center gap-2 p-4 rounded-xl bg-surface-container-low hover:bg-surface-container-high transition-colors group">
+<div class="w-10 h-10 rounded-full bg-surface-container-highest flex items-center justify-center text-on-surface group-active:scale-90 transition-transform">
+<span class="material-symbols-outlined" data-icon="pause">pause</span>
+</div>
+<span class="text-[0.75rem] font-semibold">Pause</span>
+</button>
+<button class="flex flex-col items-center justify-center gap-2 p-4 rounded-xl bg-surface-container-low hover:bg-surface-container-high transition-colors group">
+<div class="w-10 h-10 rounded-full bg-surface-container-highest flex items-center justify-center text-on-surface group-active:scale-90 transition-transform">
+<span class="material-symbols-outlined" data-icon="schedule">schedule</span>
+</div>
+<span class="text-[0.75rem] font-semibold">Reschedule</span>
+</button>
+<button class="flex flex-col items-center justify-center gap-2 p-4 rounded-xl bg-primary/10 hover:bg-primary/15 transition-colors group">
+<div class="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center text-primary group-active:scale-90 transition-transform">
+<span class="material-symbols-outlined" data-icon="upgrade">upgrade</span>
+</div>
+<span class="text-[0.75rem] font-semibold text-primary">Upgrade</span>
+</button>
+</section>
+<!-- Details Sections (Asymmetric Layout) -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<!-- Specific Instructions -->
+<div class="space-y-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary" data-icon="assignment">assignment</span>
+<h3 class="font-semibold text-lg">Instructions</h3>
+</div>
+<div class="bg-surface-container-lowest p-5 rounded-[1.5rem] shadow-[0px_4px_20px_rgba(0,0,0,0.02)] space-y-4">
+<div class="flex items-start gap-4">
+<div class="w-8 h-8 rounded-lg bg-green-100 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-green-600 text-sm" data-icon="eco">eco</span>
+</div>
+<div>
+<p class="text-[0.875rem] text-on-surface font-medium">Eco-friendly Products</p>
+<p class="text-[0.75rem] text-on-surface-variant">Use only biodegradable solutions provided in the laundry cabinet.</p>
+</div>
+</div>
+<div class="flex items-start gap-4">
+<div class="w-8 h-8 rounded-lg bg-blue-100 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-blue-600 text-sm" data-icon="vpn_key">vpn_key</span>
+</div>
+<div>
+<p class="text-[0.875rem] text-on-surface font-medium">Access Code</p>
+<p class="text-[0.75rem] text-on-surface-variant font-mono">Gate code: 1234</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Billing & History -->
+<div class="space-y-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary" data-icon="payments">payments</span>
+<h3 class="font-semibold text-lg">Billing</h3>
+</div>
+<div class="bg-surface-container-lowest p-5 rounded-[1.5rem] shadow-[0px_4px_20px_rgba(0,0,0,0.02)] flex flex-col h-full">
+<div class="flex justify-between items-center pb-4">
+<div>
+<p class="text-[0.75rem] text-on-surface-variant">Next Billing</p>
+<p class="text-[1.125rem] font-bold text-on-surface">Nov 1st</p>
+</div>
+<div class="text-right">
+<p class="text-[0.75rem] text-on-surface-variant">Amount</p>
+<p class="text-[1.125rem] font-bold text-primary">$120.00</p>
+</div>
+</div>
+<div class="mt-auto pt-4 border-t border-outline-variant/20">
+<button class="w-full py-3 rounded-xl text-primary font-semibold text-[0.875rem] hover:bg-primary/5 transition-colors flex items-center justify-center gap-2">
+                            View History
+                            <span class="material-symbols-outlined text-sm" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Visual Anchor: Membership Status -->
+<div class="relative w-full h-32 rounded-[1.5rem] overflow-hidden group">
+<img alt="Clean Interior" class="absolute inset-0 w-full h-full object-cover grayscale opacity-20" data-alt="Minimalist modern living room with clean lines, neutral colors, and soft morning sunlight, very calm and orderly" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCx9G86GVu9xwlAFTeHaeYHtJaTb8p1IQyrTTnlhMqih1VErBqLzF32XXENfelkyidDiop3atqJxa9eg_46rRAWFBUlpuPS6Nt4ksVADr7auSIzKXnfM9vdZuMgdXHqQDdIMUX9oIjyIEuqXWM619vkmuGn_ZO1-B__uTbcDfWdddu3UovJCJureyuUB3qvNEwK-bdaUKxHieE8Fz-EIfsyuCgpFlaukyfp4ImnL9fx4kJbaq47kDyIhOvd1n6hVBF_4kMFo3L0zGY"/>
+<div class="absolute inset-0 bg-gradient-to-r from-primary to-primary-container mix-blend-multiply"></div>
+<div class="absolute inset-0 flex items-center justify-between px-8 text-on-primary-container">
+<div>
+<h4 class="text-xl font-bold">You're a CareHive VIP</h4>
+<p class="text-sm opacity-80">Enjoying 15% off all deep-clean add-ons.</p>
+</div>
+<span class="material-symbols-outlined text-4xl opacity-50" data-icon="loyalty">loyalty</span>
+</div>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50">
+<div class="bg-[#f8f9fb]/90 dark:bg-slate-900/90 backdrop-blur-md shadow-[0px_-10px_30px_rgba(83,65,205,0.08)] rounded-t-[2rem] flex justify-around items-center px-4 pb-6 pt-3">
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 px-5 py-2 hover:text-[#5341cd] transition-colors active:scale-90 transition-all duration-300" href="#">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-['Inter'] font-medium text-[11px] uppercase tracking-wider mt-1">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-[#6c5ce7]/10 dark:bg-[#6c5ce7]/20 text-[#5341cd] dark:text-[#6c5ce7] rounded-2xl px-5 py-2 active:scale-90 transition-all duration-300" href="#">
+<span class="material-symbols-outlined" data-icon="loyalty" style="font-variation-settings: 'FILL' 1;">loyalty</span>
+<span class="font-['Inter'] font-medium text-[11px] uppercase tracking-wider mt-1">Plans</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 px-5 py-2 hover:text-[#5341cd] transition-colors active:scale-90 transition-all duration-300" href="#">
+<span class="material-symbols-outlined" data-icon="event_note">event_note</span>
+<span class="font-['Inter'] font-medium text-[11px] uppercase tracking-wider mt-1">Schedule</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 px-5 py-2 hover:text-[#5341cd] transition-colors active:scale-90 transition-all duration-300" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-['Inter'] font-medium text-[11px] uppercase tracking-wider mt-1">Account</span>
+</a>
+</div>
+</nav>
+</body></html>

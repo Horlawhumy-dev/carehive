@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "surface-container-lowest": "#ffffff",
+              "secondary-fixed": "#ffdea7",
+              "on-tertiary": "#ffffff",
+              "on-error": "#ffffff",
+              "on-error-container": "#93000a",
+              "error": "#ba1a1a",
+              "surface-dim": "#d9dadc",
+              "surface-container-low": "#f2f4f6",
+              "on-tertiary-fixed": "#2f1500",
+              "on-background": "#191c1e",
+              "surface-container-high": "#e7e8ea",
+              "on-secondary-container": "#785500",
+              "tertiary": "#884800",
+              "background": "#f8f9fb",
+              "outline": "#787586",
+              "surface-variant": "#e1e2e4",
+              "surface-tint": "#5847d2",
+              "inverse-on-surface": "#f0f1f3",
+              "secondary-fixed-dim": "#f0bf63",
+              "on-primary-container": "#faf6ff",
+              "surface-bright": "#f8f9fb",
+              "on-tertiary-fixed-variant": "#6e3900",
+              "on-primary-fixed": "#160066",
+              "on-tertiary-container": "#fff5f1",
+              "surface": "#f8f9fb",
+              "primary-fixed": "#e4dfff",
+              "tertiary-fixed-dim": "#ffb77d",
+              "on-primary-fixed-variant": "#4029ba",
+              "on-secondary-fixed-variant": "#5e4200",
+              "secondary-container": "#ffcd70",
+              "primary": "#5341cd",
+              "outline-variant": "#c8c4d7",
+              "on-surface-variant": "#474554",
+              "primary-fixed-dim": "#c6bfff",
+              "tertiary-container": "#ac5d00",
+              "on-secondary": "#ffffff",
+              "inverse-primary": "#c6bfff",
+              "on-surface": "#191c1e",
+              "surface-container": "#edeef0",
+              "on-primary": "#ffffff",
+              "primary-container": "#6c5ce7",
+              "error-container": "#ffdad6",
+              "secondary": "#7c5800",
+              "surface-container-highest": "#e1e2e4",
+              "tertiary-fixed": "#ffdcc3",
+              "on-secondary-fixed": "#271900",
+              "inverse-surface": "#2e3132"
+            },
+            fontFamily: {
+              "headline": ["Inter"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-surface text-on-surface flex justify-center">
+<div class="w-[390px] min-h-screen bg-surface relative flex flex-col pb-24">
+<header class="fixed top-0 w-[390px] z-50 bg-slate-50/80 dark:bg-slate-950/80 backdrop-blur-md shadow-[0_10px_30px_rgba(83,65,205,0.06)]">
+<div class="flex items-center justify-between px-6 py-4">
+<div class="flex items-center gap-4">
+<button class="active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-on-surface-variant">arrow_back</span>
+</button>
+<h1 class="font-headline font-semibold tracking-tight text-[1.25rem] text-on-surface">Find a Cleaner</h1>
+</div>
+<button class="active:scale-95 transition-transform text-indigo-600">
+<span class="material-symbols-outlined">tune</span>
+</button>
+</div>
+</header>
+<main class="mt-[72px] flex-1">
+<div class="px-6 py-4 flex gap-2 overflow-x-auto hide-scrollbar">
+<button class="px-4 py-2 bg-surface-container-high text-on-surface-variant rounded-full text-[0.875rem] font-medium whitespace-nowrap active:scale-95 transition-all">Price</button>
+<button class="px-4 py-2 bg-surface-container-high text-on-surface-variant rounded-full text-[0.875rem] font-medium whitespace-nowrap active:scale-95 transition-all">Rating</button>
+<button class="px-4 py-2 bg-surface-container-high text-on-surface-variant rounded-full text-[0.875rem] font-medium whitespace-nowrap active:scale-95 transition-all">Availability</button>
+<button class="px-4 py-2 bg-surface-container-high text-on-surface-variant rounded-full text-[0.875rem] font-medium whitespace-nowrap active:scale-95 transition-all">Near Me</button>
+</div>
+<div class="px-6 space-y-4 py-2">
+<div class="bg-surface-container-lowest p-4 rounded-xl shadow-[0_4px_20px_rgba(0,0,0,0.02)] border border-outline-variant/10">
+<div class="flex gap-4">
+<div class="relative">
+<img class="w-20 h-20 rounded-xl object-cover border-2 border-surface" data-alt="professional woman headshot with a friendly smile, clean indoor lighting, blurred modern living room background, high-end editorial style" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBPzA1BAfVZUMsLab-uayn7tvbFZvFhHS6MAWn8eAfU3kzYJgP2XE1T2V1FOj12jozqvWEHSQGZhY4v30MXQHrgA2JLferkgTCk7EeO90UPd7ng7OhqNLnv2_kOz01I5ZHFc7LBDoRZwYfCAKaXN-9-BzTJnJM2pJcNkYPW3U0dAafkQ6C_U0b8e5OwX5gbeqomqqW2RLpjKnZYTbenRQUED7RsPvJcWt0QLymJwkpFA67MZy6hdBGWV0pniq7Zcwy9uJZeDIWkE3E"/>
+<div class="absolute -bottom-1 -right-1 bg-[#22C55E] p-0.5 rounded-full border-2 border-surface">
+<span class="material-symbols-outlined text-white text-[12px]" style="font-variation-settings: 'FILL' 1;">verified</span>
+</div>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="font-headline font-semibold text-on-surface text-[1rem]">Sarah Mensah</h3>
+<p class="text-on-surface-variant text-[0.75rem] font-medium">Professional Cleaner • 5 years exp.</p>
+</div>
+<div class="flex items-center gap-1 bg-secondary-container/30 px-2 py-0.5 rounded-lg">
+<span class="material-symbols-outlined text-on-secondary-container text-[14px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="text-on-secondary-container text-[0.75rem] font-bold">4.9</span>
+</div>
+</div>
+<div class="mt-2 flex items-center justify-between">
+<p class="text-primary font-bold text-[1.125rem]">₵45<span class="text-[0.75rem] text-on-surface-variant font-normal">/hr</span></p>
+<button class="px-4 py-2 bg-primary-container text-on-primary-container rounded-xl text-[0.8125rem] font-semibold active:scale-95 transition-all shadow-sm">View Profile</button>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-4 rounded-xl shadow-[0_4px_20px_rgba(0,0,0,0.02)] border border-outline-variant/10">
+<div class="flex gap-4">
+<div class="relative">
+<img class="w-20 h-20 rounded-xl object-cover border-2 border-surface" data-alt="smiling young african american professional man headshot, studio lighting, soft gray background, trustworthy and warm expression" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAnE4yMcl3Q9zP4_P_FfB7L_O8D4s3mNn_zS1hK0x4yW3v5u6t7r8e9q0p1o2i3u4y5t6r7e8w9q0"/>
+<div class="absolute -bottom-1 -right-1 bg-[#22C55E] p-0.5 rounded-full border-2 border-surface">
+<span class="material-symbols-outlined text-white text-[12px]" style="font-variation-settings: 'FILL' 1;">verified</span>
+</div>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="font-headline font-semibold text-on-surface text-[1rem]">Abena Sarfo</h3>
+<p class="text-on-surface-variant text-[0.75rem] font-medium">Home Specialist • 3 years exp.</p>
+</div>
+<div class="flex items-center gap-1 bg-secondary-container/30 px-2 py-0.5 rounded-lg">
+<span class="material-symbols-outlined text-on-secondary-container text-[14px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="text-on-secondary-container text-[0.75rem] font-bold">4.7</span>
+</div>
+</div>
+<div class="mt-2 flex items-center justify-between">
+<p class="text-primary font-bold text-[1.125rem]">₵38<span class="text-[0.75rem] text-on-surface-variant font-normal">/hr</span></p>
+<button class="px-4 py-2 bg-primary-container text-on-primary-container rounded-xl text-[0.8125rem] font-semibold active:scale-95 transition-all shadow-sm">View Profile</button>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-4 rounded-xl shadow-[0_4px_20px_rgba(0,0,0,0.02)] border border-outline-variant/10">
+<div class="flex gap-4">
+<div class="relative">
+<img class="w-20 h-20 rounded-xl object-cover border-2 border-surface" data-alt="middle-aged professional woman smiling, soft natural window lighting, clean office-like home environment, high detail editorial portrait" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDHryUL7PdILyEdzLQgKPwNN1WbDyhtkYoIgnOD5BotmUTM8QAvdfSAK2IKTkTcrOVsGAkPvaZqDA15LFzzE1ww9LKeADmorjObONSeT1z_IZG9PzFS1-lek9nE-RmWf1mOp1iPVKa_pIyvIOphdC9Jp3kNzfuDGA-toLZZfLPpGAcZuj2wv8Dd84amViXQH18eYIQcBosH02hU8Fl1zd5D9t4TvKmvqoI5FLqRM-4M0lf4hUcOWMK14vAlDshr_xdr0AEptlTETsY"/>
+<div class="absolute -bottom-1 -right-1 bg-[#22C55E] p-0.5 rounded-full border-2 border-surface">
+<span class="material-symbols-outlined text-white text-[12px]" style="font-variation-settings: 'FILL' 1;">verified</span>
+</div>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="font-headline font-semibold text-on-surface text-[1rem]">Grace Boateng</h3>
+<p class="text-on-surface-variant text-[0.75rem] font-medium">Deep Clean Expert • 8 years exp.</p>
+</div>
+<div class="flex items-center gap-1 bg-secondary-container/30 px-2 py-0.5 rounded-lg">
+<span class="material-symbols-outlined text-on-secondary-container text-[14px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="text-on-secondary-container text-[0.75rem] font-bold">5.0</span>
+</div>
+</div>
+<div class="mt-2 flex items-center justify-between">
+<p class="text-primary font-bold text-[1.125rem]">₵55<span class="text-[0.75rem] text-on-surface-variant font-normal">/hr</span></p>
+<button class="px-4 py-2 bg-primary-container text-on-primary-container rounded-xl text-[0.8125rem] font-semibold active:scale-95 transition-all shadow-sm">View Profile</button>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-4 rounded-xl shadow-[0_4px_20px_rgba(0,0,0,0.02)] border border-outline-variant/10">
+<div class="flex gap-4">
+<div class="relative">
+<img class="w-20 h-20 rounded-xl object-cover border-2 border-surface" data-alt="young man in neutral casual clothing, bright airy setting, blurred kitchen background, approachable and professional demeanor" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAoP9q8w7e6r5t4y3u2i1o0p9a8s7d6f5g4h3j2k1l0m9n8b7v6c5x4z3x2c1v2b3n4m5"/>
+<div class="absolute -bottom-1 -right-1 bg-[#22C55E] p-0.5 rounded-full border-2 border-surface">
+<span class="material-symbols-outlined text-white text-[12px]" style="font-variation-settings: 'FILL' 1;">verified</span>
+</div>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="font-headline font-semibold text-on-surface text-[1rem]">Efua Mensah</h3>
+<p class="text-on-surface-variant text-[0.75rem] font-medium">General Cleaner • 2 years exp.</p>
+</div>
+<div class="flex items-center gap-1 bg-secondary-container/30 px-2 py-0.5 rounded-lg">
+<span class="material-symbols-outlined text-on-secondary-container text-[14px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="text-on-secondary-container text-[0.75rem] font-bold">4.6</span>
+</div>
+</div>
+<div class="mt-2 flex items-center justify-between">
+<p class="text-primary font-bold text-[1.125rem]">₵35<span class="text-[0.75rem] text-on-surface-variant font-normal">/hr</span></p>
+<button class="px-4 py-2 bg-primary-container text-on-primary-container rounded-xl text-[0.8125rem] font-semibold active:scale-95 transition-all shadow-sm">View Profile</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<nav class="fixed bottom-0 left-0 right-0 w-full max-w-[390px] mx-auto flex justify-around items-center px-4 pb-6 pt-3 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl rounded-t-[1.5rem] z-50 shadow-[0_-4px_20px_rgba(0,0,0,0.03)] border-t border-slate-200/15 dark:border-slate-800/15">
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 hover:text-indigo-500 transition-all duration-200 active:scale-90" href="#">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-['Inter'] font-medium text-[0.75rem]">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-indigo-600 dark:text-indigo-400 font-semibold bg-indigo-50/50 dark:bg-indigo-900/30 rounded-2xl px-3 py-1 transition-all duration-200 active:scale-90" href="#">
+<span class="material-symbols-outlined" data-icon="event_note">event_note</span>
+<span class="font-['Inter'] font-medium text-[0.75rem]">Bookings</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 hover:text-indigo-500 transition-all duration-200 active:scale-90" href="#">
+<span class="material-symbols-outlined" data-icon="chat_bubble">chat_bubble</span>
+<span class="font-['Inter'] font-medium text-[0.75rem]">Messages</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 hover:text-indigo-500 transition-all duration-200 active:scale-90" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-['Inter'] font-medium text-[0.75rem]">Profile</span>
+</a>
+</nav>
+</div>
+</body></html>
