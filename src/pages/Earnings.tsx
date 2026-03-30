@@ -1,8 +1,10 @@
+import { useState, useEffect } from 'react';
 import { Landmark, TrendingUp, Download, ArrowUpRight, DollarSign } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
+import { supabase } from '@/lib/supabase';
 
 const TRANSACTIONS = [
   { id: 1, type: 'Payment Received', amount: '+₵180.00', date: 'Mar 24, 2026', customer: 'Kofi Mensah', status: 'Completed', color: 'text-green-600' },
@@ -11,12 +13,32 @@ const TRANSACTIONS = [
 ];
 
 const Earnings = () => {
+  const [userMetadata, setUserMetadata] = useState<any>(null);
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session?.user?.user_metadata) {
+        setUserMetadata(session.user.user_metadata);
+      }
+    });
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (session?.user?.user_metadata) {
+        setUserMetadata(session.user.user_metadata);
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
   return (
     <div className="space-y-12 pb-20">
       {/* Header Section */}
       <section className="flex flex-col md:flex-row md:items-center justify-between gap-6 border-b border-border/10 pb-10">
         <div>
-          <h1 className="text-3xl font-extrabold tracking-tight text-on-surface leading-tight italic">Financials.</h1>
+          <h1 className="text-3xl font-extrabold tracking-tight text-on-surface leading-tight italic">
+            {userMetadata?.first_name ? `${userMetadata.first_name}'s ` : ''}Financials.
+          </h1>
           <p className="text-xs text-on-surface-variant font-medium mt-1 uppercase tracking-wide">Manage your revenue and withdrawals</p>
         </div>
         <div className="flex items-center gap-4">

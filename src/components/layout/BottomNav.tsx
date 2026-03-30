@@ -1,13 +1,45 @@
-import { Home, Calendar, MessageSquare, User } from 'lucide-react';
+import { Home, Calendar, MessageSquare, User, LayoutDashboard } from 'lucide-react';
 import { NavLink } from 'react-router-dom';
 import { cn } from '@/lib/utils';
+import { useState, useEffect } from 'react';
+import { supabase } from '@/lib/supabase';
 
 const BottomNav = () => {
+  const [userMetadata, setUserMetadata] = useState<any>(null);
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session?.user?.user_metadata) {
+        setUserMetadata(session.user.user_metadata);
+      }
+    });
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (session?.user?.user_metadata) {
+        setUserMetadata(session.user.user_metadata);
+      } else {
+        setUserMetadata(null);
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  const isPro = userMetadata?.role === 'pro';
+
   const navItems = [
     { icon: Home, label: 'Home', path: '/' },
-    { icon: Calendar, label: 'Bookings', path: '/booking' },
+    { 
+      icon: isPro ? LayoutDashboard : Calendar, 
+      label: isPro ? 'Dashboard' : 'Bookings', 
+      path: isPro ? '/worker-dashboard' : '/booking' 
+    },
     { icon: MessageSquare, label: 'Messages', path: '/' },
-    { icon: User, label: 'Profile', path: '/household' },
+    { 
+      icon: User, 
+      label: 'Profile', 
+      path: isPro ? '/worker-dashboard' : '/household' 
+    },
   ];
 
   return (

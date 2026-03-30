@@ -1,7 +1,11 @@
-import { Plus, MapPin, ShieldCheck, Settings, Download } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { Plus, MapPin, ShieldCheck, Settings, Download, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { cn } from '@/lib/utils';
+import { supabase } from '@/lib/supabase';
+import { useNavigate } from 'react-router-dom';
 
 const PROPERTIES = [
   {
@@ -23,13 +27,62 @@ const PROPERTIES = [
 ];
 
 const MyHousehold = () => {
+  const navigate = useNavigate();
+  const [userMetadata, setUserMetadata] = useState<any>(null);
+  const [bookings, setBookings] = useState<any[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchInitialData = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session?.user) {
+        setUserMetadata(session.user.user_metadata);
+        fetchBookings(session.user.id);
+      }
+    };
+
+    fetchInitialData();
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (session?.user) {
+        setUserMetadata(session.user.user_metadata);
+        fetchBookings(session.user.id);
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  const fetchBookings = async (userId: string) => {
+    setIsLoading(true);
+    const { data, error } = await supabase
+      .from('bookings')
+      .select('*')
+      .eq('client_id', userId)
+      .order('created_at', { ascending: false })
+      .limit(3);
+
+    if (error) {
+      console.error('Error fetching bookings:', error);
+    } else {
+      setBookings(data || []);
+    }
+    setIsLoading(false);
+  };
+
   return (
     <div className="space-y-12 pb-20">
       {/* Header Section */}
       <section className="flex flex-col md:flex-row md:items-center justify-between gap-6 border-b border-border/10 pb-10">
         <div>
-          <h1 className="text-[2.5rem] font-black tracking-tighter text-on-surface leading-tight italic">My Household.</h1>
+          <h1 className="text-[2.5rem] font-black tracking-tighter text-on-surface leading-tight italic">
+            {userMetadata?.first_name ? `${userMetadata.first_name}'s ` : 'My '}Household.
+          </h1>
           <div className="flex items-center gap-4 mt-4">
+           <Button variant="outline" className="h-11 px-6 rounded-xl font-bold text-[0.65rem] uppercase tracking-widest border-border/10" onClick={() => navigate('/subscription-plans')}>
+              <Sparkles className="w-4 h-4 mr-2" />
+              Subscribe to a Plan
+           </Button>
            <Button variant="outline" className="h-11 px-6 rounded-xl font-bold text-[0.65rem] uppercase tracking-widest border-border/10" onClick={() => console.log('Generate Report')}>
               <Download className="w-4 h-4 mr-2" />
               Service Log
@@ -41,6 +94,54 @@ const MyHousehold = () => {
           </div>
         </div>
       </section>
+
+      {/* Booking Status Section */}
+      {bookings.length > 0 && (
+        <section className="space-y-6">
+             <div className="flex items-center justify-between px-2">
+                <h3 className="font-black text-xs text-primary uppercase tracking-[0.3em]">Active Requests</h3>
+             </div>
+             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {isLoading ? (
+                  <div className="col-span-3 py-10 text-center bg-surface-container-low rounded-[2rem] border border-dashed border-border/20">
+                    <p className="font-black text-[0.7rem] text-on-surface-variant uppercase tracking-widest italic opacity-40">Connecting to concierge...</p>
+                  </div>
+                ) : bookings.map((booking) => (
+                  <Card key={booking.id} className="bg-surface-container-low p-6 rounded-[2.5rem] border-none shadow-lg shadow-black/5 flex flex-col gap-4 relative overflow-hidden group">
+                     <div className="absolute top-0 right-0 p-4">
+                        <Badge className={cn(
+                          "font-black text-[0.55rem] uppercase tracking-widest rounded-lg px-3 py-1 border-none",
+                          booking.status === 'accepted' ? "bg-green-500/10 text-green-500" : 
+                          booking.status === 'declined' ? "bg-red-500/10 text-red-500" : 
+                          "bg-primary/10 text-primary"
+                        )}>
+                          {booking.status}
+                        </Badge>
+                     </div>
+                     <div className="flex items-center gap-4">
+                        <div className="w-12 h-12 rounded-2xl bg-white flex items-center justify-center shadow-sm text-primary font-black italic">
+                           {booking.worker_name?.[0] || 'P'}
+                        </div>
+                        <div>
+                           <p className="text-[0.6rem] font-bold text-on-surface-variant uppercase tracking-widest leading-none mb-1">Provider assigned</p>
+                           <h4 className="font-black text-[1rem] tracking-tight italic">{booking.worker_name || 'Provider'}</h4>
+                        </div>
+                     </div>
+                     <div className="space-y-2 mt-2">
+                        <div className="flex items-center justify-between text-[0.65rem] font-bold">
+                           <span className="opacity-40 uppercase tracking-widest">Date</span>
+                           <span className="italic">{booking.service_date}</span>
+                        </div>
+                        <div className="flex items-center justify-between text-[0.65rem] font-bold">
+                           <span className="opacity-40 uppercase tracking-widest">Time Slot</span>
+                           <span className="italic">{booking.service_time}</span>
+                        </div>
+                     </div>
+                  </Card>
+                ))}
+             </div>
+        </section>
+      )}
 
       {/* Main Grid: Properties & Settings */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
@@ -99,10 +200,10 @@ const MyHousehold = () => {
                  </div>
               </div>
               <div className="space-y-4">
-                 <Button className="w-full h-12 bg-white text-on-surface font-bold text-[0.7rem] uppercase tracking-widest rounded-xl shadow-sm border-none transition-all hover:bg-slate-50" onClick={() => console.log('Manage Smart Access')}>
+                 <Button className="w-full h-11 bg-white text-on-surface font-bold text-[0.7rem] uppercase tracking-widest rounded-xl shadow-sm border-none transition-all hover:bg-slate-50" onClick={() => console.log('Manage Smart Access')}>
                     Manage Smart Access
                  </Button>
-                 <Button variant="outline" className="w-full h-12 border-white/20 text-white font-bold text-[0.7rem] uppercase tracking-widest rounded-xl hover:bg-white/5" onClick={() => console.log('Visitor Codes')}>
+                 <Button variant="outline" className="w-full h-11 border-white/20 text-white font-bold text-[0.7rem] uppercase tracking-widest rounded-xl hover:bg-white/5" onClick={() => console.log('Visitor Codes')}>
                     Visitor Codes
                  </Button>
               </div>
@@ -115,25 +216,28 @@ const MyHousehold = () => {
                  <Button variant="link" className="text-primary font-black text-[0.7rem] p-0 lowercase">invite member</Button>
               </div>
               <div className="space-y-4">
-                 {[
-                   { name: "Julian", role: "Owner" },
-                   { name: "Sarah", role: "Manager" },
-                   { name: "House Help", role: "Assistant" }
-                 ].map((member) => (
-                   <div key={member.name} className="flex items-center justify-between group">
-                      <div className="flex items-center gap-4">
-                         <div className="w-12 h-12 rounded-2xl bg-surface-container-high border-2 border-surface shadow-sm overflow-hidden flex items-center justify-center font-black text-on-surface/30">
-                           {member.name[0]}
-                         </div>
-                         <div>
-                            <p className="font-black text-[0.9rem] text-on-surface leading-none mb-1">{member.name}</p>
-                            <p className="text-[0.6rem] font-black text-on-surface-variant uppercase tracking-widest">{member.role}</p>
-                         </div>
-                      </div>
-                      <Settings className="w-4 h-4 opacity-0 group-hover:opacity-30 transition-opacity" />
-                   </div>
-                 ))}
-                 <Button variant="ghost" className="w-full h-14 rounded-2xl border border-dashed border-border/40 text-on-surface-variant font-black text-[0.7rem] uppercase tracking-widest hover:bg-white/50">
+                  {[
+                    { name: userMetadata?.first_name || "Julian", role: "Owner", current: true },
+                    { name: "Sarah", role: "Manager" },
+                    { name: "House Help", role: "Assistant" }
+                  ].map((member) => (
+                    <div key={member.name} className="flex items-center justify-between group">
+                       <div className="flex items-center gap-4">
+                          <div className={cn(
+                            "w-12 h-12 rounded-2xl border-2 shadow-sm overflow-hidden flex items-center justify-center font-black",
+                            member.current ? "bg-primary/5 border-primary/20 text-primary" : "bg-surface-container-high border-surface text-on-surface/30"
+                          )}>
+                            {member.name[0]}
+                          </div>
+                          <div>
+                             <p className="font-black text-[0.9rem] text-on-surface leading-none mb-1">{member.name}</p>
+                             <p className="text-[0.6rem] font-black text-on-surface-variant uppercase tracking-widest">{member.role}</p>
+                          </div>
+                       </div>
+                       <Settings className="w-4 h-4 opacity-0 group-hover:opacity-30 transition-opacity" />
+                    </div>
+                  ))}
+                 <Button variant="ghost" className="w-full h-11 rounded-2xl border border-dashed border-border/40 text-on-surface-variant font-black text-[0.7rem] uppercase tracking-widest hover:bg-white/50">
                     <Plus className="w-4 h-4 mr-2" />
                     New Guest Key
                  </Button>

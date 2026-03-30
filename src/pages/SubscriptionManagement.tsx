@@ -5,16 +5,38 @@ import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { useNavigate } from 'react-router-dom';
 import { cn } from '@/lib/utils';
+import { useState, useEffect } from 'react';
+import { supabase } from '@/lib/supabase';
 
 const SubscriptionManagement = () => {
   const navigate = useNavigate();
+  const [userMetadata, setUserMetadata] = useState<any>(null);
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session?.user?.user_metadata) {
+        setUserMetadata(session.user.user_metadata);
+      }
+    });
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (session?.user?.user_metadata) {
+        setUserMetadata(session.user.user_metadata);
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
   return (
     <div className="space-y-12 pb-20">
       {/* Header Section */}
       <section className="flex flex-col md:flex-row md:items-center justify-between gap-6 border-b border-border/10 pb-10">
         <div>
-          <h1 className="text-[2.5rem] font-black tracking-tighter text-on-surface leading-tight italic">My Care Plan.</h1>
-          <p className="text-on-surface-variant font-medium mt-1">Status: Elite Plus Member</p>
+          <h1 className="text-[2.5rem] font-black tracking-tighter text-on-surface leading-tight italic">
+            {userMetadata?.first_name ? `${userMetadata.first_name}'s ` : 'My '}Care Plan.
+          </h1>
+          <p className="text-on-surface-variant font-medium mt-1 uppercase tracking-widest text-[0.6rem] opacity-60">Status: Elite Plus Member</p>
         </div>
         <div className="flex items-center gap-4">
            <Button variant="outline" className="h-11 px-6 rounded-xl font-bold text-[0.65rem] uppercase tracking-widest border-border/10" onClick={() => navigate('/subscription-customize')}>
