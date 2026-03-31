@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Star, ShieldCheck, Filter, ChevronRight, Lock, Sparkles, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { supabase } from '@/lib/supabase';
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
@@ -10,6 +10,7 @@ import { groq } from '@/lib/groq';
 
 const WorkerListing = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [userMetadata, setUserMetadata] = useState<any>(null);
   const [workers, setWorkers] = useState<any[]>([]);
   const [filteredWorkers, setFilteredWorkers] = useState<any[]>([]);
@@ -61,6 +62,20 @@ const WorkerListing = () => {
         }));
         setWorkers(mappedWorkers);
         setFilteredWorkers(mappedWorkers);
+
+        // Handle state from Home page (Categories or Search)
+        const initialState = (location.state as { initialSearch?: string; initialCategory?: string });
+        
+        if (initialState?.initialCategory) {
+          setActiveCategory(initialState.initialCategory);
+          // Clear state
+          window.history.replaceState({}, document.title);
+        } else if (initialState?.initialSearch && mappedWorkers.length > 0) {
+          setSearchQuery(initialState.initialSearch);
+          performAiMatch(initialState.initialSearch, mappedWorkers);
+          // Clear state to prevent re-triggering
+          window.history.replaceState({}, document.title);
+        }
       }
     } catch (err) {
       console.error(err);
@@ -77,16 +92,10 @@ const WorkerListing = () => {
     }
   }, [activeCategory, workers]);
 
-  const handleAiSearch = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!searchQuery.trim()) {
-      setFilteredWorkers(workers);
-      return;
-    }
-
+  const performAiMatch = async (query: string, availableWorkers: any[]) => {
     setIsAiSearching(true);
     try {
-      const workerContext = workers.map(w => ({
+      const workerContext = availableWorkers.map(w => ({
         id: w.id,
         name: w.name,
         service: w.service_type,
@@ -99,7 +108,7 @@ const WorkerListing = () => {
       Given the following list of professional workers and a user's natural language request, return ONLY a comma-separated list of the IDs of the workers that best match the request.
       If no workers match, return "NONE".
       
-      User Request: "${searchQuery}"
+      User Request: "${query}"
       
       Workers:
       ${JSON.stringify(workerContext, null, 2)}
@@ -118,15 +127,25 @@ const WorkerListing = () => {
         toast.info('No direct matches found for your specific request.');
       } else {
         const matchedIds = result.split(',').map((id: string) => id.trim());
-        const matched = workers.filter(w => matchedIds.includes(w.id));
+        const matched = availableWorkers.filter(w => matchedIds.includes(w.id));
         setFilteredWorkers(matched);
-        toast.success(`Found ${matched.length} matches!`);
+        toast.success(`AI found ${matched.length} matches!`);
       }
     } catch (error: any) {
       toast.error('AI Search failed: ' + error.message);
     } finally {
       setIsAiSearching(false);
     }
+  };
+
+  const handleAiSearch = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const query = searchQuery.trim();
+    if (!query) {
+      setFilteredWorkers(workers);
+      return;
+    }
+    await performAiMatch(query, workers);
   };
 
   const clearSearch = () => {
