@@ -88,7 +88,7 @@ const Home = () => {
       <section className="flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div>
           <h2 className="text-3xl font-extrabold tracking-tight text-on-surface leading-tight">
-            {isPro ? `Ready to work, ${userMetadata?.first_name || 'Pro'}?` : `Welcome back, ${userMetadata?.first_name || 'User'} 👋`}
+            {isPro ? `Ready to work, ${userMetadata?.first_name || 'Pro'}?` : `Akwaaba ${userMetadata?.first_name || ''} 👋`}
           </h2>
           <p className="text-sm text-on-surface-variant font-medium mt-1">
             {isPro ? 'Check your pending opportunities and earnings below.' : 'What can we help you with today?'}
