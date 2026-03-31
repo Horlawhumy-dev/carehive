@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
-import { Star, ShieldCheck, Filter, ChevronRight, Lock } from 'lucide-react';
+import { Star, ShieldCheck, Filter, ChevronRight, Lock, Sparkles, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '@/lib/supabase';
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
+import { groq } from '@/lib/groq';
 
 const WorkerListing = () => {
   const navigate = useNavigate();
@@ -14,6 +15,8 @@ const WorkerListing = () => {
   const [filteredWorkers, setFilteredWorkers] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [activeCategory, setActiveCategory] = useState('All');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [isAiSearching, setIsAiSearching] = useState(false);
 
   useEffect(() => {
     fetchWorkers();
@@ -74,6 +77,63 @@ const WorkerListing = () => {
     }
   }, [activeCategory, workers]);
 
+  const handleAiSearch = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!searchQuery.trim()) {
+      setFilteredWorkers(workers);
+      return;
+    }
+
+    setIsAiSearching(true);
+    try {
+      const workerContext = workers.map(w => ({
+        id: w.id,
+        name: w.name,
+        service: w.service_type,
+        experience: w.years_exp,
+        bio: w.bio,
+        rate: w.hourly_rate
+      }));
+
+      const prompt = `You are an expert matchmaking assistant for CareHive. 
+      Given the following list of professional workers and a user's natural language request, return ONLY a comma-separated list of the IDs of the workers that best match the request.
+      If no workers match, return "NONE".
+      
+      User Request: "${searchQuery}"
+      
+      Workers:
+      ${JSON.stringify(workerContext, null, 2)}
+      
+      Return ONLY the IDs (e.g. "uuid1, uuid2, uuid3") or "NONE".`;
+
+      const response = await groq.chat([
+        { role: 'system', content: 'You are a precise matchmaking engine.' },
+        { role: 'user', content: prompt }
+      ]);
+
+      const result = response.choices[0].message.content.trim();
+      
+      if (result === 'NONE') {
+        setFilteredWorkers([]);
+        toast.info('No direct matches found for your specific request.');
+      } else {
+        const matchedIds = result.split(',').map((id: string) => id.trim());
+        const matched = workers.filter(w => matchedIds.includes(w.id));
+        setFilteredWorkers(matched);
+        toast.success(`Found ${matched.length} matches!`);
+      }
+    } catch (error: any) {
+      toast.error('AI Search failed: ' + error.message);
+    } finally {
+      setIsAiSearching(false);
+    }
+  };
+
+  const clearSearch = () => {
+    setSearchQuery('');
+    setFilteredWorkers(activeCategory === 'All' ? workers : workers.filter(w => w.service_type === activeCategory));
+  };
+
   const isPro = userMetadata?.role === 'pro';
 
   return (
@@ -81,19 +141,55 @@ const WorkerListing = () => {
       <main className="flex-1 px-6 pt-10 max-w-7xl mx-auto w-full">
         <div className="space-y-10 pb-20">
           {/* Header & Filter Stats */}
-          <section className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-border/10 pb-10">
-            <div className="space-y-1">
-              <h1 className="text-4xl font-black tracking-tighter text-on-surface leading-tight italic">Find a Professional</h1>
+          <section className="flex flex-col gap-8 border-b border-border/10 pb-10">
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+              <div className="space-y-1">
+                <h1 className="text-4xl font-black tracking-tighter text-on-surface leading-tight italic">Find a Professional</h1>
+                <p className="text-on-surface-variant font-medium">Connect with top-tier verified professionals in Ghana.</p>
+              </div>
+              <div className="flex gap-3">
+                <Button variant="outline" className="rounded-xl border-border/10 font-bold text-[0.65rem] uppercase tracking-widest px-5 h-11 hover:bg-surface-container-low transition-colors">
+                  <Filter className="w-4 h-4 mr-2" />
+                  Filters
+                </Button>
+                <Button variant="outline" className="rounded-xl border-border/10 font-bold text-[0.65rem] uppercase tracking-widest px-5 h-11 hover:bg-surface-container-low transition-colors">
+                  Sort: Rated
+                </Button>
+              </div>
             </div>
-            <div className="flex gap-3">
-              <Button variant="outline" className="rounded-xl border-border/10 font-bold text-[0.65rem] uppercase tracking-widest px-5 h-10 hover:bg-surface-container-low transition-colors">
-                <Filter className="w-3.5 h-3.5 mr-2" />
-                Filters
-              </Button>
-              <Button variant="outline" className="rounded-xl border-border/10 font-bold text-[0.65rem] uppercase tracking-widest px-5 h-10 hover:bg-surface-container-low transition-colors">
-                Sort: Rated
-              </Button>
-            </div>
+
+            {/* AI Smart Search Bar */}
+            <form onSubmit={handleAiSearch} className="relative group max-w-2xl">
+              <div className="absolute inset-0 bg-primary/5 rounded-[2rem] blur-2xl group-focus-within:bg-primary/10 transition-all"></div>
+              <div className="relative flex items-center bg-white rounded-[2rem] border border-border/10 shadow-2xl shadow-black/5 p-2 pr-4 focus-within:border-primary/30 transition-all">
+                <div className="w-12 h-12 flex items-center justify-center text-primary">
+                  <Sparkles className={cn("w-6 h-6", isAiSearching && "animate-pulse")} />
+                </div>
+                <input 
+                  type="text" 
+                  placeholder="Try 'I need an experienced nanny who can cook...'"
+                  className="flex-1 bg-transparent border-none outline-none text-on-surface font-medium placeholder:text-on-surface-variant/40"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
+                {searchQuery && (
+                  <button 
+                    type="button" 
+                    onClick={clearSearch}
+                    className="p-2 text-on-surface-variant/40 hover:text-on-surface transition-colors"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                )}
+                <Button 
+                  type="submit" 
+                  disabled={isAiSearching}
+                  className="h-10 px-6 rounded-full primary-gradient text-white font-black italic uppercase tracking-widest text-[0.65rem] shadow-lg shadow-primary/20 ml-2"
+                >
+                  {isAiSearching ? 'Matching...' : 'Smart Match'}
+                </Button>
+              </div>
+            </form>
           </section>
 
           {/* Horizontal Category Filters (Scrollable on mobile, flexible on desktop) */}

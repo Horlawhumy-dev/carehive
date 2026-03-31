@@ -15,9 +15,11 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { cn } from '@/lib/utils';
 import { supabase } from '@/lib/supabase';
 import { toast } from 'sonner';
-import { ShieldCheck, Sparkles, Briefcase, Banknote, UserRound } from 'lucide-react';
+import { ShieldCheck, Sparkles, Briefcase, Banknote, UserRound, Wand2 } from 'lucide-react';
+import { groq } from '@/lib/groq';
 
 interface ProfileModalProps {
   isOpen: boolean;
@@ -29,6 +31,7 @@ interface ProfileModalProps {
 const ProfileCompletionModal = ({ isOpen, onComplete, userMetadata, userId }: ProfileModalProps) => {
   const [loading, setLoading] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const [isOptimizing, setIsOptimizing] = useState(false);
   const [formData, setFormData] = useState({
     bio: '',
     service_type: '',
@@ -48,6 +51,36 @@ const ProfileCompletionModal = ({ isOpen, onComplete, userMetadata, userId }: Pr
       });
     }
   }, [userMetadata]);
+
+  const optimizeBio = async () => {
+    if (!formData.service_type || !formData.years_exp) {
+      toast.error('Please select a service type and enter years of experience first.');
+      return;
+    }
+
+    setIsOptimizing(true);
+    try {
+      const prompt = `You are a professional profile writer for a service marketplace called CareHive. 
+      Create a compelling, professional, and trustworthy bio for a ${formData.service_type} with ${formData.years_exp} years of experience.
+      The tone should be warm, reliable, and expert. 
+      Current bio draft (use this as context if provided, otherwise create from scratch): ${formData.bio}
+      Keep it between 2-3 concise sentences.
+      Answer ONLY with the bio text, nothing else.`;
+
+      const response = await groq.chat([
+        { role: 'system', content: 'You are an expert professional bio writer.' },
+        { role: 'user', content: prompt }
+      ]);
+
+      const optimizedBio = response.choices[0].message.content.trim();
+      setFormData({ ...formData, bio: optimizedBio });
+      toast.success('Bio optimized with AI!');
+    } catch (error: any) {
+      toast.error('Failed to optimize bio: ' + error.message);
+    } finally {
+      setIsOptimizing(false);
+    }
+  };
 
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -222,7 +255,18 @@ const ProfileCompletionModal = ({ isOpen, onComplete, userMetadata, userId }: Pr
             </div>
 
             <div className="space-y-2">
-              <label className="text-[0.6rem] font-bold text-outline uppercase tracking-widest pl-2">Professional Biodata</label>
+              <div className="flex justify-between items-center pr-2">
+                <label className="text-[0.6rem] font-bold text-outline uppercase tracking-widest pl-2">Professional Biodata</label>
+                <button
+                  type="button"
+                  onClick={optimizeBio}
+                  disabled={isOptimizing}
+                  className="flex items-center gap-1.5 text-primary font-black text-[0.65rem] uppercase tracking-widest hover:opacity-70 transition-all disabled:opacity-30"
+                >
+                  <Wand2 className={cn("w-3.5 h-3.5", isOptimizing && "animate-pulse")} />
+                  {isOptimizing ? 'Optimizing...' : 'Optimize with AI'}
+                </button>
+              </div>
               <Textarea 
                 placeholder="Tell us about yourself and your skills..."
                 className="min-h-[100px] rounded-[2rem] bg-surface-container-low border-none shadow-sm resize-none p-6 text-sm"

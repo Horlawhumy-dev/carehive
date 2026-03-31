@@ -9,7 +9,9 @@ import {
   Wallet,
   Star,
   ShieldCheck,
-  Edit2
+  Edit2,
+  Sparkles,
+  Zap
 } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -23,6 +25,7 @@ import {
 import { cn } from '@/lib/utils';
 import { supabase } from '@/lib/supabase';
 import { toast } from 'sonner';
+import { groq } from '@/lib/groq';
 import ProfileCompletionModal from '@/components/dashboard/ProfileCompletionModal';
 
 const WorkerDashboard = () => {
@@ -36,6 +39,8 @@ const WorkerDashboard = () => {
     bookingId: null,
     action: null
   });
+  const [aiTip, setAiTip] = useState<string | null>(null);
+  const [isGeneratingTip, setIsGeneratingTip] = useState(false);
 
   useEffect(() => {
     const fetchInitialData = async () => {
@@ -100,6 +105,38 @@ const WorkerDashboard = () => {
 
   const openConfirm = (bookingId: string, action: 'accepted' | 'declined') => {
     setConfirmDialog({ isOpen: true, bookingId, action });
+  };
+
+  const generateAiTip = async () => {
+    setIsGeneratingTip(true);
+    try {
+      const statsContext = {
+        rating: '4.9',
+        reliability: '98%',
+        profileViews: '1.2k',
+        earnings: '₵4,850.00',
+        serviceType: userMetadata?.service_type || 'Professional'
+      };
+
+      const prompt = `You are a professional business strategist for CareHive. 
+      Based on the following worker stats, provide ONE high-impact, concise growth tip (max 20 words) to help them earn more or improve their profile.
+      Stats: ${JSON.stringify(statsContext)}
+      
+      Tone: Encouraging, data-driven, and professional.
+      Answer ONLY with the tip.`;
+
+      const response = await groq.chat([
+        { role: 'system', content: 'You are an elite business coach.' },
+        { role: 'user', content: prompt }
+      ]);
+
+      setAiTip(response.choices[0].message.content.trim());
+      toast.success('Strategy updated!');
+    } catch (error: any) {
+      toast.error('Failed to get strategy: ' + error.message);
+    } finally {
+      setIsGeneratingTip(false);
+    }
   };
 
   const getInitials = () => {
@@ -256,9 +293,54 @@ const WorkerDashboard = () => {
 
           {/* Right: Quick Stats & Activity */}
           <div className="lg:col-span-4 space-y-8">
-            <Card className="bg-surface-container-low p-8 rounded-[2.5rem] border-none shadow-none space-y-8">
-              <h3 className="font-black text-xs text-primary uppercase tracking-[0.3em]">Performance Insights</h3>
-              <div className="space-y-6">
+            <Card className="bg-surface-container-low p-8 rounded-[2.5rem] border-none shadow-none space-y-8 overflow-hidden relative group">
+              <div className="absolute -right-4 -top-4 w-24 h-24 bg-primary/5 rounded-full blur-2xl group-hover:bg-primary/10 transition-all"></div>
+              <div className="flex justify-between items-center relative z-10">
+                <h3 className="font-black text-xs text-primary uppercase tracking-[0.3em]">Performance Insights</h3>
+                {!aiTip && !isGeneratingTip && (
+                  <button 
+                    onClick={generateAiTip}
+                    className="flex items-center gap-2 px-4 py-2 bg-primary/10 text-primary rounded-xl hover:bg-primary/20 transition-all text-[0.65rem] font-black uppercase tracking-widest"
+                  >
+                    <Sparkles className="w-3.5 h-3.5" />
+                    AI Strategist
+                  </button>
+                )}
+              </div>
+
+              {isGeneratingTip && (
+                <div className="py-8 text-center animate-pulse">
+                  <div className="w-10 h-10 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-3">
+                    <Zap className="w-5 h-5 text-primary fill-primary" />
+                  </div>
+                  <p className="text-[0.65rem] font-black text-primary uppercase tracking-[0.2em]">Consulting Strategist...</p>
+                </div>
+              )}
+
+              {aiTip && (
+                <div className="bg-white/80 backdrop-blur-xl p-6 rounded-[2rem] border border-primary/20 shadow-xl shadow-primary/5 animate-in zoom-in-95 duration-500 relative group/tip">
+                  <div className="flex justify-between items-start mb-4">
+                    <div className="flex gap-2.5 items-center">
+                      <div className="w-8 h-8 rounded-xl bg-primary/10 flex items-center justify-center">
+                        <Sparkles className="w-4 h-4 text-primary" />
+                      </div>
+                      <p className="text-[0.65rem] font-black text-primary uppercase tracking-[0.2em]">Growth Strategy</p>
+                    </div>
+                    <button 
+                      onClick={generateAiTip}
+                      className="p-1.5 hover:bg-primary/10 rounded-lg transition-all text-primary/40 hover:text-primary"
+                    >
+                      <Zap className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+                  <p className="text-[0.9rem] font-black text-on-surface leading-snug italic pr-2">
+                    "{aiTip}"
+                  </p>
+                  <div className="absolute -bottom-2 -right-2 w-12 h-12 bg-primary/5 rounded-full blur-xl"></div>
+                </div>
+              )}
+
+              <div className="space-y-6 relative z-10">
                 {[
                   { label: 'Avg Rating', val: '4.9', sub: 'Last 30 days', icon: Star, color: 'text-secondary' },
                   { label: 'Reliability', val: '98%', sub: 'No cancellations', icon: CheckCircle2, color: 'text-primary' },
